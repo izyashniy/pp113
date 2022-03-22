@@ -2,8 +2,6 @@ package jm.task.core.jdbc.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
-import java.util.Properties;
-import java.util.logging.Logger;
 
 public class Util {
     public static Connection getNewConnection() {
@@ -29,5 +27,6 @@ public class Util {
         }
         return connection;
     }
+
     // реализуйте настройку соеденения с БД
 }
