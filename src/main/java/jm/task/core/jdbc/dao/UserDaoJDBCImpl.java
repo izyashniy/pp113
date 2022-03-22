@@ -22,6 +22,7 @@ public class UserDaoJDBCImpl implements UserDao {
         try(PreparedStatement preparedStatement = getNewConnection().prepareStatement(sqlCommand)) {
             preparedStatement.executeUpdate();
             System.out.println("Database: create table!");
+            getNewConnection().commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -32,6 +33,7 @@ public class UserDaoJDBCImpl implements UserDao {
         try (PreparedStatement preparedStatement = getNewConnection().prepareStatement(sqlCommand)) {
             preparedStatement.executeUpdate();
             System.out.println("Database: drop table!");
+            getNewConnection().commit();
         } catch (SQLException e) {
             System.out.println("Unknown table");
         }
@@ -45,6 +47,7 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.setInt(3, age);
             preparedStatement.executeUpdate();
             System.out.println("Database: save user!");
+            getNewConnection().commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -55,6 +58,7 @@ public class UserDaoJDBCImpl implements UserDao {
         try (PreparedStatement preparedStatement = getNewConnection().prepareStatement(sqlCommand)) {
             preparedStatement.executeUpdate();
             System.out.println("Database: delete user!");
+            getNewConnection().commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -74,6 +78,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 user.setAge(resultSet.getByte("age"));
                 list.add(user);
             }
+            getNewConnection().commit();
             // получение содержимого строк
         } catch (SQLException e) {
             e.printStackTrace();
@@ -86,6 +91,7 @@ public class UserDaoJDBCImpl implements UserDao {
         try (PreparedStatement preparedStatement = getNewConnection().prepareStatement(sqlCommand)) {
             preparedStatement.executeUpdate();
             System.out.println("Database: clean table!");
+            getNewConnection().commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }

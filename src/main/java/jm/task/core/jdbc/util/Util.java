@@ -12,6 +12,7 @@ public class Util {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             connection = DriverManager.getConnection(url, login, pass);
+            connection.setAutoCommit(false);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
