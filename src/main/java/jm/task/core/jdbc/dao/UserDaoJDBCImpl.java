@@ -98,7 +98,7 @@ public class UserDaoJDBCImpl implements UserDao {
             System.out.println("Database: clean table!");
             conn.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Nothing to clean");
         }
     }
 }
