@@ -42,7 +42,6 @@ public class UserDaoJDBCImpl implements UserDao {
             System.out.println("Database: drop table!");
             conn.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
             System.out.println("Unknown table");
             try {
                 conn.rollback();

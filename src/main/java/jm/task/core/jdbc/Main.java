@@ -20,6 +20,7 @@ public class Main {
         userService.cleanUsersTable();
         userService.dropUsersTable();
 
+
         try {
             getNewConnection().close();
         } catch (SQLException e) {
