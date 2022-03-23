@@ -1,5 +1,6 @@
 package jm.task.core.jdbc;
 
+import jm.task.core.jdbc.dao.UserDaoHibernateImpl;
 import jm.task.core.jdbc.service.UserServiceImpl;
 import org.hibernate.Session;
 
@@ -11,6 +12,9 @@ import static jm.task.core.jdbc.util.Util.getSessionFactory;
 public class Main {
     public static void main(String[] args) {
         // реализуйте алгоритм здесь
-        Session session = getSessionFactory().openSession();
+        UserDaoHibernateImpl user = new UserDaoHibernateImpl();
+        user.createUsersTable();
+        user.saveUser("Ivan", "Lebedkin", (byte) 20);
+
     }
 }
