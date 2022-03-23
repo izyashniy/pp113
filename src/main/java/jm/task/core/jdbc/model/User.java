@@ -1,6 +1,7 @@
 package jm.task.core.jdbc.model;
 
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Objects;
@@ -21,6 +22,7 @@ public class User {
     }
 
     @Id
+    @GeneratedValue
     private Long id;
 
     @Column

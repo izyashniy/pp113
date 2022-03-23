@@ -12,9 +12,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
-        hashCode();
-        hashCode();
-        hashCode();
+
     }
 
     @Override
