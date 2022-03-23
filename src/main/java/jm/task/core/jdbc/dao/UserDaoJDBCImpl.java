@@ -26,8 +26,13 @@ public class UserDaoJDBCImpl implements UserDao {
             conn.commit();
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
-    }
+        }
 
     public void dropUsersTable() {
         String sqlCommand = "DROP TABLE Users";
@@ -37,7 +42,13 @@ public class UserDaoJDBCImpl implements UserDao {
             System.out.println("Database: drop table!");
             conn.commit();
         } catch (SQLException e) {
+            e.printStackTrace();
             System.out.println("Unknown table");
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -53,6 +64,11 @@ public class UserDaoJDBCImpl implements UserDao {
             conn.commit();
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -65,6 +81,11 @@ public class UserDaoJDBCImpl implements UserDao {
             conn.commit();
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -86,6 +107,11 @@ public class UserDaoJDBCImpl implements UserDao {
             // получение содержимого строк
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
         return list;
     }
