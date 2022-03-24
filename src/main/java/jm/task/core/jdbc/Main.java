@@ -13,8 +13,8 @@ public class Main {
     public static void main(String[] args) {
         // реализуйте алгоритм здесь
         UserDaoHibernateImpl user = new UserDaoHibernateImpl();
-        user.createUsersTable();
-        user.saveUser("Ivan", "Lebedkin", (byte) 20);
-
+//        user.createUsersTable();
+//        user.saveUser("Ivan", "Lebedkin", (byte) 20);
+        user.dropUsersTable();
     }
 }
