@@ -2,6 +2,7 @@ package jm.task.core.jdbc.dao;
 
 import jm.task.core.jdbc.model.User;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import java.sql.ResultSet;
@@ -23,66 +24,73 @@ public class UserDaoHibernateImpl implements UserDao {
                 "lastName VARCHAR(200), age INT)";
         try (Session session = getSessionFactory().openSession()) {
             session.beginTransaction();
-            Query query = session.createSQLQuery(sqlCommand).addEntity(User.class);
+            session.createSQLQuery(sqlCommand).executeUpdate();
             System.out.println("Database: create table!");
             session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     public void dropUsersTable() {
-        String sqlCommand = "DROP TABLE User";
+        String sqlCommand = "DROP TABLE IF EXISTS User";
         try (Session session = getSessionFactory().openSession()) {
             session.beginTransaction();
-            Query query = session.createSQLQuery(sqlCommand).addEntity(User.class);
+            session.createSQLQuery(sqlCommand).executeUpdate();
             System.out.println("Database: drop table!");
             session.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Unknown table");
         }
     }
 
     @Override
     public void saveUser(String name, String lastName, byte age) {
-        String sqlCommand = "INSERT User(name, lastName, age) VALUES (?, ?, ?)";
         try (Session session = getSessionFactory().openSession()) {
+            User user = new User(name, lastName, age);
             session.beginTransaction();
-            Query query = session.createSQLQuery(sqlCommand).addEntity(User.class);
-            query.setParameter(1, name);
-            query.setParameter(2, lastName);
-            query.setParameter(3, age);
+            session.save(user);
             System.out.println("Database: save user!");
             session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     public void removeUserById(long id) {
-        String sqlCommand = "DELETE FROM User WHERE Id = id";
         try (Session session = getSessionFactory().openSession()) {
+            User user = new User();
+            user.setId(id);
             session.beginTransaction();
-            Query query = session.createSQLQuery(sqlCommand).addEntity(User.class);
+            session.delete(user);
             System.out.println("Database: delete user!");
             session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     public List<User> getAllUsers() {
-        String sqlCommand = "SELECT u FROM User u";
+        String sqlCommand = "FROM User";
          try (Session session = getSessionFactory().openSession()) {
-             session.beginTransaction();
-            return session.createQuery(sqlCommand, User.class).list();
-        }
+             return session.createQuery(sqlCommand, User.class).list();
+         }
     }
 
 
     @Override
     public void cleanUsersTable() {
-        String sqlCommand = "TRUNCATE TABLE Users";
+        String sqlCommand = "DELETE FROM User";
         try (Session session = getSessionFactory().openSession()) {
             session.beginTransaction();
-            Query query = session.createSQLQuery(sqlCommand).addEntity(User.class);
+            session.createQuery(sqlCommand).executeUpdate();
             System.out.println("Database: clean table!");
             session.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Nothing to clean");
         }
     }
 }

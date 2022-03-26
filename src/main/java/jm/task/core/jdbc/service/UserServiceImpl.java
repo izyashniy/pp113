@@ -5,37 +5,35 @@ import jm.task.core.jdbc.dao.UserDaoHibernateImpl;
 import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
 import jm.task.core.jdbc.model.User;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-    private UserDaoHibernateImpl user = new UserDaoHibernateImpl();
+    private UserDao userDAO = new UserDaoHibernateImpl();
+    @Transactional
     public void createUsersTable() {
-        user.createUsersTable();
+        userDAO.createUsersTable();
     }
-
+    @Transactional
     public void dropUsersTable() {
 
-        user.dropUsersTable();
+        userDAO.dropUsersTable();
     }
-
+    @Transactional
     public void saveUser(String name, String lastName, byte age) {
-        user.saveUser(name, lastName, age);
+        userDAO.saveUser(name, lastName, age);
     }
-
+    @Transactional
     public void removeUserById(long id) {
-        user.removeUserById(id);
+        userDAO.removeUserById(id);
     }
-
+    @Transactional
     public List<User> getAllUsers() {
-        List<User> list = user.getAllUsers();
-        for (User user : list) {
-            System.out.println(user);
-        }
-        return user.getAllUsers();
+        return userDAO.getAllUsers();
     }
 
     public void cleanUsersTable() {
-        user.cleanUsersTable();
+        userDAO.cleanUsersTable();
     }
 }
