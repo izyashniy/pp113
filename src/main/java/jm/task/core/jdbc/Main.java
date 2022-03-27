@@ -19,8 +19,8 @@ public class Main {
         user.saveUser("Naruto", "Uzumaki", (byte) 20);
         user.removeUserById(3);
         user.getAllUsers();
-        user.cleanUsersTable();
-        user.dropUsersTable();
+        //user.cleanUsersTable();
+        //user.dropUsersTable();
 
 
 
