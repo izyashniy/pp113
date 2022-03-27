@@ -22,32 +22,41 @@ public class UserDaoHibernateImpl implements UserDao {
     public void createUsersTable() {
         String sqlCommand = "CREATE TABLE IF NOT EXISTS User (Id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(200), " +
                 "lastName VARCHAR(200), age INT)";
-        try (Session session = getSessionFactory().openSession()) {
+        Session session = getSessionFactory().openSession();
+        try {
             session.beginTransaction();
             session.createSQLQuery(sqlCommand).executeUpdate();
             System.out.println("Database: create table!");
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
         }
     }
 
     @Override
     public void dropUsersTable() {
         String sqlCommand = "DROP TABLE IF EXISTS User";
-        try (Session session = getSessionFactory().openSession()) {
+        Session session = getSessionFactory().openSession();
+        try {
             session.beginTransaction();
             session.createSQLQuery(sqlCommand).executeUpdate();
             System.out.println("Database: drop table!");
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println("Unknown table");
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
         }
     }
 
     @Override
     public void saveUser(String name, String lastName, byte age) {
-        try (Session session = getSessionFactory().openSession()) {
+        Session session = getSessionFactory().openSession();
+        try {
             User user = new User(name, lastName, age);
             session.beginTransaction();
             session.save(user);
@@ -55,12 +64,16 @@ public class UserDaoHibernateImpl implements UserDao {
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
         }
     }
 
     @Override
     public void removeUserById(long id) {
-        try (Session session = getSessionFactory().openSession()) {
+        Session session = getSessionFactory().openSession();
+        try {
             User user = new User();
             user.setId(id);
             session.beginTransaction();
@@ -69,28 +82,43 @@ public class UserDaoHibernateImpl implements UserDao {
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
         }
     }
 
     @Override
     public List<User> getAllUsers() {
+        List<User> list = new ArrayList<>();
         String sqlCommand = "FROM User";
-         try (Session session = getSessionFactory().openSession()) {
-             return session.createQuery(sqlCommand, User.class).list();
-         }
+        Session session = getSessionFactory().openSession();
+        try {
+            list = session.createQuery(sqlCommand, User.class).list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
+        return list;
     }
 
 
     @Override
     public void cleanUsersTable() {
         String sqlCommand = "DELETE FROM User";
-        try (Session session = getSessionFactory().openSession()) {
+        Session session = getSessionFactory().openSession();
+        try {
             session.beginTransaction();
             session.createQuery(sqlCommand).executeUpdate();
             System.out.println("Database: clean table!");
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println("Nothing to clean");
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
         }
     }
 }
